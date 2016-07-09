@@ -27,7 +27,7 @@ public class ExecuteCronJob implements Job {
 		try {
 			int count = jdbcConnection.selectRecordsFromTable(context.getJobDetail().getKey().getName());
 			if(count >= 5 ){
-				new EmailClient().sendEmail();
+				new EmailClient().sendEmail(context.getJobDetail().getKey().getName(),context.getFireTime());
 				//throw new RuntimeException("Maximum count has reached");
 				CronExpressionGenerator.getInstance().shutdown(context.getJobDetail().getKey());
 			}else{

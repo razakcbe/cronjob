@@ -13,11 +13,11 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailClient {
 
-	public void sendEmail(){
+	public void sendEmail(String jobname,Date time){
 		try
 		{
 			String toEmail = "razakcbe@gmail.com";
-			String subject = "Maximum scheduled call has been reached !!";
+			String subject = "Maximum scheduled(5) call of job ("+jobname+ ") has been reached !!. Last exexution time of job ("+jobname+") is "+ time;
 			String body = "Maximum scheduled call has been reached";
 
 			Properties props = new Properties();
