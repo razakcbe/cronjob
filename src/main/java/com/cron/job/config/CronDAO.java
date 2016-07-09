@@ -25,17 +25,16 @@ public class CronDAO {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("PostgreSQL JDBC Driver Registered!");
 		try {
 			connection = DriverManager.getConnection(
-					"jdbc:postgresql://localhost:5432/cronjob", "postgres",
-					"postgres");
+					"jdbc:postgresql://ec2-54-243-249-159.compute-1.amazonaws.com:5432/d71m607hqfbb4q", "vpstyypsdffzul",
+					"YvLN3-Cf3t6eecYcbTxLyxzyuS");
 		} catch (SQLException e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
 		}
 		if (connection != null) {
-			System.out.println("You made it, take control your database now!");
+			System.out.println("Database connected");
 		} else {
 			System.out.println("Failed to make connection!");
 		}
@@ -55,7 +54,7 @@ public class CronDAO {
 			statement.setString(4, jobname);
 			statement.setString(5, jobname);
 			statement.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!");
+			System.out.println("Record is inserted into job_detail table!");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {

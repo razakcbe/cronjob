@@ -1,6 +1,6 @@
 var app = angular.module('cronpage', ['ngRoute','checklist-model']);
-//var basicurl = "https://asianstock.herokuapp.com/product";
-var basicurl = "http://localhost:8080/product";
+var basicurl = "https://cronjob-mine.herokuapp.com/cron/start";
+//var basicurl = "http://localhost:8080/cron/start";
 
 
 app.config(['$routeProvider',
@@ -42,7 +42,7 @@ app.config(['$routeProvider',
 
 app.controller("minuteController", function($scope, $http, $location) {
     $scope.schedule = function() {
-        var url = "http://localhost:8080/cron/start";
+        //var url = "http://localhost:8080/cron/start";
         $scope.mycronvo.tabindex = 1;
         var data = angular.toJson($scope.mycronvo);
         var config = {
@@ -51,7 +51,7 @@ app.controller("minuteController", function($scope, $http, $location) {
             }
         }
         //alert(data);
-        $http.post(url, data, config)
+        $http.post(basicurl, data, config)
             .success(function(data, status, headers, config) {
             })
             .error(function(data, status, header, config) {
@@ -62,7 +62,7 @@ app.controller("minuteController", function($scope, $http, $location) {
 
 app.controller("hourlyController", function($scope, $http, $log, $location) {
 	$scope.schedule = function() {
-        var url = "http://localhost:8080/cron/start";
+        //var url = "http://localhost:8080/cron/start";
         $scope.mycronvo.tabindex = 2;
         var data = angular.toJson($scope.mycronvo);
         var config = {
@@ -71,7 +71,7 @@ app.controller("hourlyController", function($scope, $http, $log, $location) {
             }
         }
         //alert(data);
-        $http.post(url, data, config)
+        $http.post(basicurl, data, config)
             .success(function(data, status, headers, config) {
             })
             .error(function(data, status, header, config) {
@@ -81,7 +81,7 @@ app.controller("hourlyController", function($scope, $http, $log, $location) {
 });
 app.controller("dailyController", function($scope, $http, $log, $location) {
 	$scope.schedule = function() {
-        var url = "http://localhost:8080/cron/start";
+        //var url = "http://localhost:8080/cron/start";
         $scope.mycronvo.tabindex = 3;
         var data = angular.toJson($scope.mycronvo);
         var config = {
@@ -90,7 +90,7 @@ app.controller("dailyController", function($scope, $http, $log, $location) {
             }
         }
         //alert(data);
-        $http.post(url, data, config)
+        $http.post(basicurl, data, config)
             .success(function(data, status, headers, config) {
             })
             .error(function(data, status, header, config) {
@@ -99,7 +99,7 @@ app.controller("dailyController", function($scope, $http, $log, $location) {
 });
 app.controller("weeklyController", function($scope, $http, $log, $location) {
 	$scope.schedule = function() {
-        var url = "http://localhost:8080/cron/start";
+        //var url = "http://localhost:8080/cron/start";
         $scope.mycronvo.tabindex = 6;
         var data = angular.toJson($scope.mycronvo);
         var config = {
@@ -108,7 +108,7 @@ app.controller("weeklyController", function($scope, $http, $log, $location) {
             }
         }
         //alert(data);
-        $http.post(url, data, config)
+        $http.post(basicurl, data, config)
             .success(function(data, status, headers, config) {
             })
             .error(function(data, status, header, config) {
@@ -117,7 +117,7 @@ app.controller("weeklyController", function($scope, $http, $log, $location) {
 });
 app.controller("monthlyController", function($scope, $http, $log, $location) {
 	$scope.schedule = function() {
-        var url = "http://localhost:8080/cron/start";
+        //var url = "http://localhost:8080/cron/start";
         $scope.mycronvo.tabindex = 5;
         var data = angular.toJson($scope.mycronvo);
         var config = {
@@ -126,7 +126,7 @@ app.controller("monthlyController", function($scope, $http, $log, $location) {
             }
         }
         //alert(data);
-        $http.post(url, data, config)
+        $http.post(basicurl, data, config)
             .success(function(data, status, headers, config) {
             })
             .error(function(data, status, header, config) {
@@ -135,7 +135,8 @@ app.controller("monthlyController", function($scope, $http, $log, $location) {
 });
 
 app.controller("jobController", function($scope, $http, $log, $location) {
-    $http.get("http://localhost:8080/cron/all").then(function(response) {
+	var url = "http://cronjob-mine.herokuapp.com/cron/all";
+    $http.get(url).then(function(response) {
         $scope.jobdetails = response.data;
     });
 });

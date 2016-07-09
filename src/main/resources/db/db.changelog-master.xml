@@ -16,13 +16,7 @@
   next_fire_time timestamp without time zone,
   job_name character varying(255),
   job_type character varying(255)
-)
-WITH (
-  OIDS=FALSE
 );
-ALTER TABLE public.job_detail
-  OWNER TO postgres;
-
 		]]>
 		</sql>
 	</changeSet>
