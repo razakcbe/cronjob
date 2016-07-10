@@ -5,6 +5,7 @@ package com.cron.job.executable;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -19,24 +20,26 @@ import com.cron.job.service.client.EmailClient;
  *
  */
 public class ExecuteCronJob implements Job {
+	
+	Logger log = Logger.getLogger(ExecuteCronJob.class.getName());
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("Hello Quartz!"+new Date().toString());
+		log.info("Hello Quartz!"+new Date().toString());
+		
 		CronDAO jdbcConnection = CronDAO.getInstance();
 		try {
 			int count = jdbcConnection.selectRecordsFromTable(context.getJobDetail().getKey().getName());
 			if(count >= 5 ){
 				new EmailClient().sendEmail(context.getJobDetail().getKey().getName(),context.getFireTime());
-				//throw new RuntimeException("Maximum count has reached");
 				CronExpressionGenerator.getInstance().shutdown(context.getJobDetail().getKey());
 			}else{
 				jdbcConnection.insertRecordIntoDbUserTable(context.getJobDetail().getKey().getName(),context.getPreviousFireTime(),context.getFireTime(),context.getNextFireTime());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.severe("SQLException "+ e.getMessage());
 		} catch (SchedulerException e) {
-			e.printStackTrace();
+			log.severe("SchedulerException "+ e.getMessage());
 		}
 	}
 

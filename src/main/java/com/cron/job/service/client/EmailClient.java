@@ -2,6 +2,7 @@ package com.cron.job.service.client;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -13,12 +14,14 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailClient {
 
+	Logger log = Logger.getLogger(EmailClient.class.getName());
+
 	public void sendEmail(String jobname,Date time){
 		try
 		{
 			String toEmail = "razakcbe@gmail.com";
-			String subject = "Maximum scheduled(5) call of job ("+jobname+ ") has been reached !!. Last exexution time of job ("+jobname+") is "+ time;
-			String body = "Maximum scheduled call has been reached";
+			String body = "Maximum scheduled(5) call of job ("+jobname+ ") has been reached !!. Last exexution time of job ("+jobname+") is "+ time;
+			String subject = "Maximum scheduled call has been reached";
 
 			Properties props = new Properties();
 			props.put("mail.smtp.host", "smtp.gmail.com");
@@ -50,13 +53,13 @@ public class EmailClient {
 			msg.setSentDate(new Date());
 
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-			System.out.println("Message is ready");
+			log.info("Message is ready");
 			Transport.send(msg);  
 
-			System.out.println("EMail Sent Successfully!!");
+			log.info("EMail Sent Successfully!!");
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			log.severe("Exception in mail client "+e.getMessage());
 		}
 	}
 }

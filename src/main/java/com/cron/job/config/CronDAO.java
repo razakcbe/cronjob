@@ -8,10 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.cron.job.vo.JobDetail;
 
 public class CronDAO {
+
+	Logger log = Logger.getLogger(CronDAO.class.getName());
+
 	private static final CronDAO instance = new CronDAO();
 	private CronDAO(){
 	}
@@ -29,14 +33,14 @@ public class CronDAO {
 			connection = DriverManager.getConnection(
 					"jdbc:postgresql://ec2-54-243-249-159.compute-1.amazonaws.com:5432/d71m607hqfbb4q", "vpstyypsdffzul",
 					"YvLN3-Cf3t6eecYcbTxLyxzyuS");
+			//"jdbc:postgresql://localhost:5432/cronjob","postgres","postgres");
 		} catch (SQLException e) {
-			System.out.println("Connection Failed! Check output console");
-			e.printStackTrace();
+			log.severe("SQLException "+e.getMessage());
 		}
 		if (connection != null) {
-			System.out.println("Database connected");
+			log.info("Database connected!");
 		} else {
-			System.out.println("Failed to make connection!");
+			log.severe("Failed to make connection!");
 		}
 		return connection;
 	}
@@ -54,9 +58,9 @@ public class CronDAO {
 			statement.setString(4, jobname);
 			statement.setString(5, jobname);
 			statement.executeUpdate();
-			System.out.println("Record is inserted into job_detail table!");
+			log.info("Record is inserted into job_detail table!");
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			log.severe("Failed to make connection! "+e.getMessage());
 		} finally {
 			if (statement != null) {
 				statement.close();
@@ -81,7 +85,7 @@ public class CronDAO {
 				count++;
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			log.severe("SQLException ! "+e.getMessage());
 		} finally {
 			if (preparedStatement != null) {
 				preparedStatement.close();
@@ -92,7 +96,7 @@ public class CronDAO {
 		}
 		return count;
 	}
-	
+
 	public List<JobDetail> selectRecordsFromTable() throws SQLException {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
@@ -113,7 +117,7 @@ public class CronDAO {
 			}
 			return jobList;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			log.severe("SQLException ! "+e.getMessage());
 		} finally {
 			if (preparedStatement != null) {
 				preparedStatement.close();
